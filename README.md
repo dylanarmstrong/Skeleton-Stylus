@@ -27,7 +27,6 @@ The download includes Skeleton's CSS (as a styl file) as a starting point.
 ```
 skeleton/
 ├── skeleton.styl
-├── dist/
 ├── package.json
 ├── LICENSE
 └── README.md
