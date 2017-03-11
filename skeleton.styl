@@ -1,0 +1,593 @@
+/*
+* Skeleton V2.0.4
+* Copyright 2014, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 12/29/2014
+*
+* Stylus version by Dylan Armstrong (https://github.com/meinhimmel)
+*
+*/
+
+/* Table of contents
+––––––––––––––––––––––––––––––––––––––––––––––––––
+- Variables
+- Mixins
+- Clearing
+- Grid
+- Base Styles
+- Typography
+- Links
+- Buttons
+- Forms
+- Lists
+- Code
+- Tables
+- Spacing
+- Utilities
+- Media Queries
+*/
+
+/* Variables
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+$screen-xs = 400px;
+$screen-sm = 550px;
+$screen-md = 750px;
+$screen-lg = 1000px;
+$screen-hd = 1200px;
+
+$container-width = 960px;
+
+$container-xs = 85%;
+$container-sm = 80%;
+
+// Number of columns in the grid
+$grid-columns = 12;
+$column-width = 100 / $grid-columns;
+$column-margin = 4;
+// If grid-columns changes, you must update the following line to include it
+$columns = (1 one) (2 two) (3 three) (4 four) (5 five) (6 six) (7 seven) (8 eight) (9 nine) (10 ten) (11 eleven) (12 twelve);
+
+$border-radius = 4px;
+
+$font-family = 'Raleway', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// Colors
+$blue = #33cef0;
+$light-blue = #1eaedb;
+$dark-gray = #333;
+$gray = #555;
+$light-gray = #e1e1e1;
+$white = #fff;
+
+// Specific Colors
+$font-color = #222;
+$secondary-color = $gray;
+$primary-color = $blue;
+
+$link-color = $light-blue;
+$link-hover-color = #0fa0ce;
+
+$button-bg = transparent;
+$button-border = #bbb;
+$button-color = $secondary-color;
+
+$button-focus-border = #888;
+$button-focus-color = $dark-gray;
+
+$button-primary-bg = $primary-color;
+$button-primary-border = $primary-color;
+
+$button-primary-focus-border = $light-blue;
+$button-primary-focus-bg = $light-blue;
+
+$input-bg = $white;
+$input-border = #d1d1d1;
+$input-focus-border = $primary-color;
+
+$code-bg = #f1f1f1;
+$code-border = $light-gray;
+
+$table-border = $light-gray;
+
+$hr-border = $light-gray;
+
+/* Mixins
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+vendor($property, $value) {
+  -webkit-{$property}: $value;
+  -moz-{$property}: $value;
+  -ms-{$property}: $value;
+  -o-{$property}: $value;
+  {$property}: $value;
+}
+
+border-radius() {
+  vendor border-radius arguments;
+}
+
+box-shadow() {
+  vendor box-shadow arguments;
+}
+
+box-sizing() {
+  vendor box-sizing arguments;
+}
+
+appearance() {
+  vendor appearance arguments;
+}
+
+grid-col($n) {
+  width: percentage(($column-width * $n - ($column-margin * ($grid-columns - $n) / $grid-columns)) / 100);
+}
+
+grid-col-offset($n) {
+  margin-left: grid-col($n) + $column-margin;
+}
+
+make-cols() {
+  for $column in $columns {
+    // The little tuple list above to convert a number to text
+    $n = $column[0];
+    $name = $column[1];
+
+    // Column class name, .one.columns needs a .one.column as well
+    $col-class = '.' + $name + '.columns';
+    if $n == 1 {
+      $col-class += ', .' + $name + '.column';
+    }
+
+    {$col-class} {
+      grid-col($n); 
+      if $n == 12 {
+        margin-left: 0;
+      }
+    }
+
+    .offset-by-{$name}.columns {
+      grid-col-offset($n);
+    }
+  }
+
+  .offset-by-one-third.column,
+  .offset-by-one-third.columns {
+    grid-col-offset(4);
+  }
+
+  .offset-by-two-third.column,
+  .offset-by-two-third.columns {
+    grid-col-offset(8);
+  }
+
+  .offset-by-one-half.column,
+  .offset-by-one-half.columns {
+    grid-col-offset(6);
+  }
+}
+
+/* Clearing
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* Self Clearing Goodness */
+.row:after,
+.u-cf {
+  display: table;
+  content: '';
+  clear: both;
+}
+
+/* Grid
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.container {
+  &:after {
+    @extend .u-cf;
+  }
+  position: relative;
+  width: 100%;
+  max-width: $container-width;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.column,
+.columns {
+  width: 100%;
+  float: left;
+  box-sizing: border-box;
+}
+
+@media (min-width: $screen-xs) {
+  .container {
+    width: $container-xs;
+    padding: 0;
+  }
+}
+
+@media (min-width: $screen-sm) {
+  .container {
+    width: $container-sm;
+  }
+
+  .column,
+  .columns {
+    margin-left: percentage($column-margin / 100);
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  make-cols();
+}
+
+/* Base Styles
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/* NOTE
+html is set to 62.5% so that all the REM measurements throughout Skeleton
+are based on 10px sizing. So basically 1.5rem = 15px :) */
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: $font-family;
+  color: $font-color;
+}
+
+/* Typography
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+h1, 
+h2, 
+h3, 
+h4, 
+h5, 
+h6 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 300; 
+}
+
+h1 { 
+  font-size: 4.0rem; 
+  line-height: 1.2;
+  letter-spacing: -.1rem;
+}
+
+h2 { 
+  font-size: 3.6rem; 
+  line-height: 1.25; 
+  letter-spacing: -.1rem; 
+}
+
+h3 { 
+  font-size: 3.0rem;
+  line-height: 1.3;  
+  letter-spacing: -.1rem; 
+}
+
+h4 { 
+  font-size: 2.4rem; 
+  line-height: 1.35; 
+  letter-spacing: -.08rem; 
+}
+
+h5 { 
+  font-size: 1.8rem; 
+  line-height: 1.5;  
+  letter-spacing: -.05rem; 
+}
+
+h6 { 
+  font-size: 1.5rem; 
+  line-height: 1.6;  
+  letter-spacing: 0; 
+}
+
+/* Larger than phablet */
+@media (min-width: $screen-sm) {
+  h1 { 
+    font-size: 5.0rem; 
+  }
+
+  h2 { 
+    font-size: 4.2rem; 
+  }
+
+  h3 { 
+    font-size: 3.6rem; 
+  }
+
+  h4 { 
+    font-size: 3.0rem; 
+  }
+
+  h5 { 
+    font-size: 2.4rem; 
+  }
+
+  h6 { 
+    font-size: 1.5rem; 
+  }
+}
+
+p {
+  margin-top: 0; 
+}
+
+/* Links
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+a {
+  color: $link-color;
+
+  &:hover {
+    color: $link-hover-color;
+  }
+}
+
+/* Buttons
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.button,
+button,
+input[type='submit'],
+input[type='reset'],
+input[type='button'] {
+  display: inline-block;
+  height: 38px;
+  padding: 0 30px;
+  color: $button-color;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: $button-bg;
+  border-radius: $border-radius;
+  border: 1px solid $button-border;
+  cursor: pointer;
+  box-sizing: border-box; 
+
+  &:hover,
+  &:focus {
+    color: $button-focus-color;
+    border-color: $button-focus-border;
+    outline: 0;
+  }
+}
+
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: $white;
+  background-color: $button-primary-bg;
+  border-color: $button-primary-border;
+
+  &:hover,
+  &:focus {
+    color: $white;
+    background-color: $button-primary-focus-bg;
+    border-color: $button-primary-focus-border;
+  }
+}
+
+/* Forms
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+input[type='email'],
+input[type='number'],
+input[type='search'],
+input[type='text'],
+input[type='tel'],
+input[type='url'],
+input[type='password'],
+textarea,
+select {
+  height: 38px;
+  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  background-color: $input-bg;
+  border: 1px solid $input-border;
+  border-radius: $border-radius;
+  box-shadow: none;
+  box-sizing: border-box; 
+
+  &:focus {
+    border: 1px solid $input-focus-border;
+    outline: 0;
+  }
+}
+
+/* Removes awkward default styles on some inputs for iOS */
+input[type='email'],
+input[type='number'],
+input[type='search'],
+input[type='text'],
+input[type='tel'],
+input[type='url'],
+input[type='password'],
+textarea {
+  appearance: none; 
+}
+
+textarea {
+  min-height: 65px;
+  padding-top: 6px;
+  padding-bottom: 6px; 
+}
+
+label,
+legend {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: 600; 
+}
+
+fieldset {
+  padding: 0;
+  border-width: 0; 
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  display: inline; 
+}
+
+label > .label-body {
+  display: inline-block;
+  margin-left: .5rem;
+  font-weight: normal; 
+}
+
+/* Lists
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+ul {
+  list-style: circle inside; 
+}
+
+ol {
+  list-style: decimal inside; 
+}
+
+ol,
+ul {
+  padding-left: 0;
+  margin-top: 0; 
+
+  ul,
+  ol {
+    margin: 1.5rem 0 1.5rem 3rem;
+    font-size: 90%; 
+  }
+}
+
+li {
+  margin-bottom: 1rem; 
+}
+
+/* Code
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+code {
+  padding: .2rem .5rem;
+  margin: 0 .2rem;
+  font-size: 90%;
+  white-space: nowrap;
+  background: $code-bg;
+  border: 1px solid $code-border;
+  border-radius: 4px; 
+}
+
+pre > code {
+  display: block;
+  padding: 1rem 1.5rem;
+  white-space: pre; 
+}
+
+
+/* Tables
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid $table-border;
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+}
+
+/* Spacing
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+button,
+.button {
+  margin-bottom: 1rem; 
+}
+
+input,
+textarea,
+select,
+fieldset {
+  margin-bottom: 1.5rem; 
+}
+
+pre,
+blockquote,
+dl,
+figure,
+table,
+p,
+ul,
+ol,
+form {
+  margin-bottom: 2.5rem; 
+}
+
+/* Utilities
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.u-full-width {
+  width: 100%;
+  box-sizing: border-box; 
+}
+
+.u-max-full-width {
+  max-width: 100%;
+  box-sizing: border-box; 
+}
+
+.u-pull-right {
+  float: right; 
+}
+
+.u-pull-left {
+  float: left; 
+}
+
+/* Misc
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+hr {
+  margin-top: 3rem;
+  margin-bottom: 3.5rem;
+  border-width: 0;
+  border-top: 1px solid $hr-border;
+}
+
+/* Media Queries
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/*
+Note: The best way to structure the use of media queries is to create the queries
+near the relevant code. For example, if you wanted to change the styles for buttons
+on small devices, paste the mobile query code up in the buttons section and style it
+there.
+*/
+
+/* Larger than mobile */
+@media (min-width: $screen-xs) {
+}
+
+/* Larger than phablet (also point when grid becomes active) */
+@media (min-width: $screen-sm) {
+}
+
+/* Larger than tablet */
+@media (min-width: $screem-md) {
+}
+
+/* Larger than desktop */
+@media (min-width: $screen-lg) {
+}
+
+/* Larger than Desktop HD */
+@media (min-width: $screen-hd) {
+}
+
